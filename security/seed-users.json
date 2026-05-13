@@ -1,9 +1,0 @@
-{
-  "_INSTRUCTIONS": "Replace each REPLACE_WITH_*_UID with the real UID Firebase Auth assigned. Then in Firebase Console → Realtime Database → ⋮ → Import JSON, import this file at the /users path (NOT at root, or you'll wipe everything else).",
-
-  "WOTh3ni9ZOcvh1HaDKc0TTdTduv1":  { "role": "admin",  "name": "Site Manager",   "email": "admin@continuumenergy.in" },
-  "vxuwrLiTxAQ6SYixkj3Xr3HqpaX2":  { "role": "solar",  "name": "Solar Engineer", "email": "solar@continuumenergy.in" },
-  "WCVr6KaBVSTKih0hSittKfEdFi02":    { "role": "wtg",    "name": "WTG Engineer",   "email": "wtg@continuumenergy.in"   },
-  "sBOB4VYMQIOxQ3zknyEzno4Kn4K2":    { "role": "bop",    "name": "BOP Engineer",   "email": "bop@continuumenergy.in"   },
-  "REPLACE_WITH_VIEWER_UID": { "role": "viewer", "name": "Management",     "email": "view@swppl.demo"  }
-}
