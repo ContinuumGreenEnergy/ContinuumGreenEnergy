@@ -1,0 +1,202 @@
+/* ═══════════════════════════════════════════════════════════════
+   ui-polish.css — enterprise-grade visual refinement layer
+   Loaded LAST so it can refine the base theme without rewriting it:
+   typography rhythm, card depth, motion, consistent spacing, live
+   toast popups, and the interactive wind-farm visualisation.
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Typography rhythm ─────────────────────────────────────────── */
+body{
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  text-rendering:optimizeLegibility;
+  letter-spacing:.1px;
+}
+.pt{letter-spacing:.3px;}
+.pht{letter-spacing:.4px;}
+.kl{letter-spacing:1.2px;font-weight:600;}
+.kv{font-variant-numeric:tabular-nums;}
+.fl{letter-spacing:.8px;}
+
+/* ── Card system: consistent radius, depth, hover lift ─────────── */
+.pnl{
+  border-radius:12px;
+  transition:box-shadow .25s ease, transform .25s ease, border-color .25s ease;
+  box-shadow:0 1px 2px rgba(0,0,0,.18), 0 4px 14px rgba(0,0,0,.10);
+}
+.pnl:hover{
+  box-shadow:0 2px 4px rgba(0,0,0,.20), 0 10px 28px rgba(0,0,0,.16);
+  border-color:var(--b2);
+}
+.kpi{
+  border-radius:11px;
+  transition:transform .22s cubic-bezier(.22,.8,.36,1), box-shadow .22s ease;
+}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.22);}
+
+/* live value flash — ui-live.js adds .val-flash whenever a number changes */
+.val-flash{animation:valFlash 1s ease;}
+@keyframes valFlash{
+  0%{text-shadow:0 0 0 transparent;}
+  25%{text-shadow:0 0 14px var(--ac,#4fc3f7);transform:scale(1.06);}
+  100%{text-shadow:0 0 0 transparent;transform:scale(1);}
+}
+
+/* ── Buttons: smoother, consistent ─────────────────────────────── */
+.btn{
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease, border-color .15s ease;
+  border-radius:7px;
+}
+.btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.22);}
+.btn:active{transform:translateY(0) scale(.98);}
+.btn:focus-visible{outline:2px solid var(--ac,#4fc3f7);outline-offset:2px;}
+
+/* ── Tables: row hover, breathing room ─────────────────────────── */
+.tbl td,.tbl th{padding:7px 9px;}
+.tbl tbody tr{transition:background .15s ease;}
+.tbl tbody tr:hover{background:rgba(79,195,247,.05);}
+.work-tbl td{padding:11px 12px;}
+.work-tbl tbody tr{transition:background .15s ease;}
+
+/* ── Inputs ────────────────────────────────────────────────────── */
+.fi,.fs,.fta{
+  border-radius:7px;
+  transition:border-color .15s ease, box-shadow .15s ease;
+}
+.fi:focus,.fs:focus,.fta:focus{
+  border-color:var(--ac,#4fc3f7);
+  box-shadow:0 0 0 3px rgba(79,195,247,.14);
+  outline:none;
+}
+
+/* ── Scrollbars ────────────────────────────────────────────────── */
+*::-webkit-scrollbar{width:9px;height:9px;}
+*::-webkit-scrollbar-track{background:transparent;}
+*::-webkit-scrollbar-thumb{background:var(--b2,#24406a);border-radius:5px;border:2px solid transparent;background-clip:content-box;}
+*::-webkit-scrollbar-thumb:hover{background:var(--b3,#2e5085);background-clip:content-box;border:2px solid transparent;}
+
+/* ── View entrance ─────────────────────────────────────────────── */
+.view.on{animation:viewIn .3s cubic-bezier(.22,.8,.36,1);}
+@keyframes viewIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIVE TOAST POPUPS — sequential real-time notification bubbles
+   (history stays in the bell panel; these are the "as it happens"
+   WhatsApp-style popups, bottom-right, queued one after another)
+   ═══════════════════════════════════════════════════════════════ */
+/* energy-flow dash animation — used by the live site map polylines */
+@keyframes flowDash{to{stroke-dashoffset:-16;}}
+
+/* ── Leaflet site-map live effects ─────────────────────────────── */
+.leaflet-overlay-pane path.flow-line{
+  stroke-dasharray:8 8;
+  animation:flowDash 1.4s linear infinite;
+}
+.map-pulse{position:relative;}
+.map-pulse::after{
+  content:'';position:absolute;inset:-5px;border-radius:50%;
+  border:2px solid currentColor;opacity:.7;
+  animation:mapPulse 1.8s ease-out infinite;
+}
+@keyframes mapPulse{0%{transform:scale(.6);opacity:.8;}100%{transform:scale(1.5);opacity:0;}}
+
+/* light theme adjustments */
+[data-theme="light"] .pnl{box-shadow:0 1px 2px rgba(40,70,120,.08), 0 4px 14px rgba(40,70,120,.07);}
+
+/* ═══════════════════════════════════════════════════════════════
+   NOTIFICATION CAROUSEL — rectangular live-update box IN THE TOPBAR
+   (fills the unused space next to the project title; loops
+   continuously through the latest updates, pauses on hover)
+   ═══════════════════════════════════════════════════════════════ */
+#notif-ticker{
+  flex:1 1 300px;min-width:220px;max-width:860px;height:40px;
+  display:flex;align-items:center;gap:9px;padding:0 11px;margin:0 12px;
+  background:linear-gradient(90deg, var(--card3,#0a1626), var(--card2,#0e2038) 40%, var(--card3,#0a1626));
+  border:1px solid var(--b2,#24406a);border-radius:9px;
+  overflow:hidden;
+}
+#notif-ticker.ping{animation:tickerPing .9s ease;}
+@keyframes tickerPing{0%{box-shadow:0 0 0 rgba(79,195,247,0);}30%{box-shadow:0 0 14px rgba(79,195,247,.55);}100%{box-shadow:0 0 0 rgba(79,195,247,0);}}
+/* the breadcrumb shouldn't hog the row — let the box take the slack */
+#tb #bc{flex:0 1 auto;}
+.nt-live{
+  display:flex;flex-direction:column;align-items:center;gap:2px;flex-shrink:0;
+  font-size:8px;font-weight:900;letter-spacing:1.2px;color:var(--er,#ff5252);
+}
+.nt-live-dot{width:7px;height:7px;border-radius:50%;background:var(--er,#ff5252);animation:liveDot 1.4s ease-in-out infinite;}
+@keyframes liveDot{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,82,82,.5);}50%{opacity:.55;box-shadow:0 0 0 4px rgba(255,82,82,0);}}
+.nt-viewport{flex:1;min-width:0;height:100%;overflow:hidden;position:relative;display:flex;align-items:center;}
+.nt-item{width:100%;display:flex;align-items:center;}
+.nt-item.roll .nt-msg{animation:ntRoll .45s cubic-bezier(.22,.8,.36,1);}
+@keyframes ntRoll{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:none;}}
+.nt-msg{
+  display:flex;align-items:stretch;gap:8px;min-width:0;width:100%;cursor:pointer;
+}
+.nt-msg.flash .nt-body{animation:ntFlash 1.6s ease;}
+@keyframes ntFlash{0%{background:rgba(79,195,247,.18);}100%{background:transparent;}}
+.nt-stripe{width:3px;border-radius:3px;flex-shrink:0;}
+.nt-body{flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px;border-radius:5px;padding:0 2px;}
+.nt-line1{display:flex;align-items:center;gap:7px;min-width:0;}
+.nt-line2{display:flex;align-items:center;gap:8px;min-width:0;}
+.nt-mod{
+  flex-shrink:0;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:.7px;
+  border:1px solid currentColor;border-radius:8px;padding:1.5px 7px;line-height:1.1;
+}
+.nt-act{flex-shrink:0;font-weight:800;color:var(--t1,#ddeeff);font-size:11px;}
+.nt-desc{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--t2,#8aaccf);font-size:10.5px;}
+.nt-by{flex-shrink:0;font-size:9.5px;font-weight:700;color:var(--ac,#4fc3f7);}
+.nt-time{flex-shrink:0;font-size:9px;color:var(--t3,#4a6a8a);}
+.nt-empty{display:flex;flex-direction:column;justify-content:center;gap:1px;min-width:0;}
+.nt-empty-l1{font-size:10px;font-weight:700;color:var(--t2,#8aaccf);}
+.nt-empty-l2{font-size:8.5px;color:var(--t3,#4a6a8a);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nt-count{flex-shrink:0;font-size:9px;color:var(--t3,#4a6a8a);font-variant-numeric:tabular-nums;}
+.nt-btn{
+  flex-shrink:0;background:transparent;border:1px solid var(--b2,#24406a);color:var(--t2,#8aaccf);
+  width:26px;height:24px;border-radius:6px;cursor:pointer;font-size:12px;line-height:1;
+  transition:border-color .15s, color .15s;
+}
+.nt-btn:hover{border-color:var(--ac,#4fc3f7);color:var(--ac,#4fc3f7);}
+/* on narrow screens hide the second-line time + count to keep the box tidy */
+@media(max-width:1200px){.nt-time,.nt-count{display:none;}}
+@media(max-width:900px){#notif-ticker{display:none;}}
+[data-theme="light"] #notif-ticker{background:linear-gradient(90deg,#eef4fb,#e3edf9 40%,#eef4fb);}
+
+/* light theme adjustments */
+[data-theme="light"] .pnl{box-shadow:0 1px 2px rgba(40,70,120,.08), 0 4px 14px rgba(40,70,120,.07);}
+
+/* live-viz empty-state overlays */
+.lv-empty{
+  position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+  text-align:center;color:var(--t3,#4a6a8a);font-size:10px;line-height:1.6;padding:0 24px;
+}
+
+/* live-viz canvases must fill their fixed-height .ch containers so Chart.js
+   (maintainAspectRatio:false) has definite dimensions to draw into */
+.ch{position:relative;min-height:0;}
+.ch canvas{display:block;width:100%!important;height:100%!important;}
+.live-viz-grid .ch.h280{height:240px;}
+@media(max-width:1100px){.live-viz-grid .ch.h280{height:220px;}}
+
+/* ── Manpower & Machinery section cards ── */
+.mp-sec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+@media(max-width:900px){.mp-sec-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.mp-sec-grid{grid-template-columns:1fr;}}
+.mp-sec-card{
+  background:var(--card2,#0e2038);border:1px solid var(--b1,#1a2e4a);border-radius:10px;
+  padding:11px 13px;cursor:pointer;transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.mp-sec-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.22);}
+.mp-sec-card.open{border-color:var(--ac,#4fc3f7);box-shadow:0 0 0 2px rgba(79,195,247,.18);}
+
+/* ── Manpower & Machinery — Power BI-style visual dashboard ── */
+.mp-viz-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px;}
+@media(max-width:1000px){.mp-viz-grid{grid-template-columns:1fr;}}
+.mp-viz-card{position:relative;}
+.mp-share-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+@media(max-width:900px){.mp-share-row{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:520px){.mp-share-row{grid-template-columns:1fr;}}
+.mp-share-card{
+  background:var(--card2,#0e2038);border:1px solid var(--b1,#1a2e4a);border-radius:9px;
+  padding:9px 11px;transition:transform .15s ease, box-shadow .15s ease;
+}
+.mp-share-card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.2);}
